@@ -1,0 +1,21 @@
+{
+  "name": "typescript-basic",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js", 
+    "dev": "ts-node src/main.ts",
+    "watch": "tsc --watch",
+    "clean": "rimraf dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
