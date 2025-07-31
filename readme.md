@@ -238,25 +238,6 @@ tree /f
 find . -name "node_modules" -prune -o -type f -print
 ```
 
-**예상 구조:**
-```
-typescript-todo-app/
-├── src/
-│   ├── types.ts
-│   ├── todoManager.ts
-│   ├── utils.ts
-│   └── main.ts
-├── dist/
-│   ├── main.js
-│   └── main.js.map
-├── node_modules/
-├── package.json
-├── package-lock.json
-└── tsconfig.json
-```
-
----
-
 ## ✅ 설정 완료 체크리스트
 
 다음 항목들이 모두 체크되었는지 확인해주세요:
