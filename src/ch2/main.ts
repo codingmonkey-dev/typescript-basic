@@ -395,88 +395,6 @@ account.deposit(5000);
 account.withdraw(3000);
 console.log("현재 잔액:", account.getBalance());
 
-/**
- * 상속과 추상 클래스
- * - extends 키워드로 클래스 상속
- * - super 키워드로 부모 클래스 접근
- * - abstract 키워드로 추상 클래스 정의
- * - 추상 메서드는 자식 클래스에서 반드시 구현해야 함
- */
-console.log("\n--- 4-3. 상속과 추상 클래스 ---");
-
-abstract class Animal {
-    protected name: string;
-    protected age: number;
-
-    constructor(name: string, age: number) {
-        this.name = name;
-        this.age = age;
-    }
-
-    public getInfo(): string {
-        return `이름: ${this.name}, 나이: ${this.age}세`;
-    }
-
-    // 추상 메서드 - 자식 클래스에서 반드시 구현해야 함
-    abstract makeSound(): string;
-    abstract move(): string;
-}
-
-class Dog extends Animal {
-    private breed: string;
-
-    constructor(name: string, age: number, breed: string) {
-        super(name, age); // 부모 생성자 호출
-        this.breed = breed;
-    }
-
-    makeSound(): string {
-        return "멍멍!";
-    }
-
-    move(): string {
-        return "네 발로 뛰어다닙니다.";
-    }
-
-    getBreed(): string {
-        return this.breed;
-    }
-}
-
-class Cat extends Animal {
-    private isIndoor: boolean;
-
-    constructor(name: string, age: number, isIndoor: boolean) {
-        super(name, age);
-        this.isIndoor = isIndoor;
-    }
-
-    makeSound(): string {
-        return "야옹~";
-    }
-
-    move(): string {
-        return "조용히 걸어다닙니다.";
-    }
-
-    getLocation(): string {
-        return this.isIndoor ? "실내" : "실외";
-    }
-}
-
-let myDog = new Dog("멍멍이", 3, "골든 리트리버");
-let myCat = new Cat("나비", 2, true);
-
-console.log("강아지 정보:", myDog.getInfo());
-console.log("강아지 소리:", myDog.makeSound());
-console.log("강아지 움직임:", myDog.move());
-console.log("강아지 품종:", myDog.getBreed());
-
-console.log("고양이 정보:", myCat.getInfo());
-console.log("고양이 소리:", myCat.makeSound());
-console.log("고양이 움직임:", myCat.move());
-console.log("고양이 위치:", myCat.getLocation());
-
 // ================================================
 // 5. 종합 실습 예제
 // ================================================
@@ -484,210 +402,109 @@ console.log("고양이 위치:", myCat.getLocation());
 console.log("\n--- 5. 종합 실습 예제 ---");
 
 /**
- * 온라인 쇼핑몰 시스템
- * - 제네릭을 활용한 데이터 관리
+ * 간단한 도서 관리 시스템
+ * - 제네릭을 활용한 데이터 처리
  * - 타입 별칭으로 복잡한 타입 정의
- * - 클래스를 이용한 객체지향 설계
  * - 함수 타입을 활용한 콜백 처리
  */
 
 // 타입 별칭 정의
-type ProductId = string;
-type Price = number;
-type Quantity = number;
+type BookId = string;
+type BookGenre = "fiction" | "science" | "history" | "biography";
 
-type ProductCategory = "electronics" | "clothing" | "books" | "food";
-
-type Product = {
-    id: ProductId;
-    name: string;
-    price: Price;
-    category: ProductCategory;
-    description?: string;
+type Book = {
+    id: BookId;
+    title: string;
+    author: string;
+    genre: BookGenre;
+    year: number;
 };
 
-type CartItem = {
-    product: Product;
-    quantity: Quantity;
-};
-
-// 제네릭 인터페이스
-interface Repository<T> {
-    findById(id: string): T | undefined;
-    findAll(): T[];
-    add(item: T): void;
-    remove(id: string): boolean;
+// 제네릭 함수들
+// 배열에서 조건에 맞는 항목들을 필터링하는 제네릭 함수
+function filterItems<T>(
+    items: T[],
+    predicate: (item: T) => boolean
+): T[] {
+    return items.filter(predicate);
 }
 
-// 제네릭 클래스 - 상품 저장소
-class ProductRepository implements Repository<Product> {
-    private products: Product[] = [];
-
-    findById(id: ProductId): Product | undefined {
-        return this.products.find(product => product.id === id);
-    }
-
-    findAll(): Product[] {
-        return [...this.products];
-    }
-
-    add(product: Product): void {
-        this.products.push(product);
-    }
-
-    remove(id: ProductId): boolean {
-        const index = this.products.findIndex(product => product.id === id);
-        if (index > -1) {
-            this.products.splice(index, 1);
-            return true;
-        }
-        return false;
-    }
-
-    findByCategory(category: ProductCategory): Product[] {
-        return this.products.filter(product => product.category === category);
-    }
-}
-
-// 쇼핑카트 클래스
-class ShoppingCart {
-    private items: CartItem[] = [];
-
-    addItem(product: Product, quantity: Quantity = 1): void {
-        const existingItem = this.items.find(item => item.product.id === product.id);
-        
-        if (existingItem) {
-            existingItem.quantity += quantity;
-        } else {
-            this.items.push({ product, quantity });
-        }
-        
-        console.log(`${product.name} ${quantity}개가 장바구니에 추가되었습니다.`);
-    }
-
-    removeItem(productId: ProductId): boolean {
-        const index = this.items.findIndex(item => item.product.id === productId);
-        if (index > -1) {
-            const removedItem = this.items.splice(index, 1)[0];
-            console.log(`${removedItem.product.name}이(가) 장바구니에서 제거되었습니다.`);
-            return true;
-        }
-        return false;
-    }
-
-    getItems(): CartItem[] {
-        return [...this.items];
-    }
-
-    getTotalPrice(): Price {
-        return this.items.reduce((total, item) => {
-            return total + (item.product.price * item.quantity);
-        }, 0);
-    }
-
-    clear(): void {
-        this.items = [];
-        console.log("장바구니가 비워졌습니다.");
-    }
-}
-
-// 주문 처리 함수 (고차 함수)
-type PaymentProcessor = (amount: Price) => Promise<boolean>;
-type OrderCallback = (success: boolean, orderId?: string) => void;
-
-async function processOrder(
-    cart: ShoppingCart,
-    paymentProcessor: PaymentProcessor,
-    callback: OrderCallback
-): Promise<void> {
-    const totalAmount = cart.getTotalPrice();
+// 배열에서 특정 속성으로 그룹화하는 제네릭 함수
+function groupBy<T, K extends string | number | symbol>(
+    items: T[],
+    keySelector: (item: T) => K
+): Record<K, T[]> {
+    const result = {} as Record<K, T[]>;
     
-    if (totalAmount === 0) {
-        callback(false);
-        return;
-    }
-
-    try {
-        const paymentSuccess = await paymentProcessor(totalAmount);
-        
-        if (paymentSuccess) {
-            const orderId = `ORDER-${Date.now()}`;
-            cart.clear();
-            callback(true, orderId);
-        } else {
-            callback(false);
+    items.forEach(item => {
+        const key = keySelector(item);
+        if (!result[key]) {
+            result[key] = [];
         }
-    } catch (error) {
-        callback(false);
-    }
+        result[key].push(item);
+    });
+    
+    return result;
 }
 
-// 결제 처리기 함수들
-const creditCardProcessor: PaymentProcessor = async (amount: Price): Promise<boolean> => {
-    console.log(`신용카드로 ${amount}원 결제 처리 중...`);
-    // 실제로는 결제 API 호출
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(amount > 0 && amount <= 1000000); // 100만원 이하만 성공
-        }, 1000);
-    });
-};
+// 함수 타입들
+type SearchCallback<T> = (results: T[]) => void;
+
+// 도서 검색 함수
+function searchBooks(
+    books: Book[],
+    query: string,
+    callback: SearchCallback<Book>
+): void {
+    const results = books.filter(book => 
+        book.title.toLowerCase().includes(query.toLowerCase()) ||
+        book.author.toLowerCase().includes(query.toLowerCase())
+    );
+    
+    callback(results);
+}
 
 // 실습 실행
-async function runShoppingMallDemo(): Promise<void> {
-    console.log("=== 온라인 쇼핑몰 시스템 데모 ===");
+function runBookDemo(): void {
+    console.log("=== 도서 관리 시스템 데모 ===");
 
-    // 상품 저장소 초기화
-    const productRepo = new ProductRepository();
-    
-    // 상품 데이터 추가
-    const products: Product[] = [
-        { id: "P001", name: "노트북", price: 1500000, category: "electronics", description: "고성능 노트북" },
-        { id: "P002", name: "티셔츠", price: 25000, category: "clothing", description: "면 100% 티셔츠" },
-        { id: "P003", name: "자바스크립트 책", price: 35000, category: "books", description: "웹 개발 필수서" },
-        { id: "P004", name: "사과", price: 3000, category: "food", description: "신선한 사과" }
+    // 도서 데이터 생성
+    const books: Book[] = [
+        { id: "B001", title: "해리 포터", author: "J.K. 롤링", genre: "fiction", year: 2001 },
+        { id: "B002", title: "코스모스", author: "칼 세이건", genre: "science", year: 2020 },
+        { id: "B003", title: "사피엔스", author: "유발 하라리", genre: "history", year: 2021 },
+        { id: "B004", title: "스티브 잡스", author: "월터 아이작슨", genre: "biography", year: 2011 },
+        { id: "B005", title: "1984", author: "조지 오웰", genre: "fiction", year: 2022 }
     ];
 
-    products.forEach(product => productRepo.add(product));
-
-    // 쇼핑카트 생성
-    const cart = new ShoppingCart();
-
-    // 상품 검색 및 장바구니 추가
-    const laptop = productRepo.findById("P001");
-    const tshirt = productRepo.findById("P002");
-    const book = productRepo.findById("P003");
-
-    if (laptop) cart.addItem(laptop, 1);
-    if (tshirt) cart.addItem(tshirt, 2);
-    if (book) cart.addItem(book, 1);
-
-    // 장바구니 내용 확인
-    console.log("\n--- 장바구니 내용 ---");
-    cart.getItems().forEach(item => {
-        console.log(`${item.product.name}: ${item.quantity}개 x ${item.product.price}원`);
-    });
-    console.log(`총 금액: ${cart.getTotalPrice()}원`);
-
-    // 카테고리별 상품 검색
-    console.log("\n--- 전자제품 목록 ---");
-    const electronics = productRepo.findByCategory("electronics");
-    electronics.forEach(product => {
-        console.log(`${product.name}: ${product.price}원`);
+    // 장르별 도서 그룹화
+    console.log("\n--- 장르별 도서 그룹화 ---");
+    const booksByGenre = groupBy(books, book => book.genre);
+    
+    Object.entries(booksByGenre).forEach(([genre, genreBooks]) => {
+        console.log(`${genre}: ${genreBooks.map(book => book.title).join(", ")}`);
     });
 
-    // 주문 처리
-    console.log("\n--- 주문 처리 ---");
-    await processOrder(cart, creditCardProcessor, (success, orderId) => {
-        if (success && orderId) {
-            console.log(`주문이 성공적으로 처리되었습니다. 주문번호: ${orderId}`);
+    // 최근 도서 필터링 (2020년 이후)
+    console.log("\n--- 최근 도서 (2020년 이후) ---");
+    const recentBooks = filterItems(books, book => book.year >= 2020);
+    recentBooks.forEach(book => {
+        console.log(`${book.title} (${book.year}) - ${book.author}`);
+    });
+
+    // 도서 검색 (제목 검색)
+    console.log("\n--- 도서 검색 결과 ---");
+    searchBooks(books, "해리", (results) => {
+        if (results.length > 0) {
+            console.log("검색 결과:");
+            results.forEach(book => {
+                console.log(`- ${book.title} by ${book.author}`);
+            });
         } else {
-            console.log("주문 처리에 실패했습니다.");
+            console.log("검색 결과가 없습니다.");
         }
     });
 }
 
 // 데모 실행
-runShoppingMallDemo().then(() => {
-    console.log("\n=== 실습 완료 ===");
-});
+runBookDemo();

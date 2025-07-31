@@ -363,84 +363,6 @@ account.deposit(5000);
 account.withdraw(3000);
 console.log("현재 잔액:", account.getBalance());
 
-/**
- * 상속과 추상 클래스
- * - extends 키워드로 클래스 상속
- * - super 키워드로 부모 클래스 접근
- * - abstract 키워드로 추상 클래스 정의
- * - 추상 메서드는 자식 클래스에서 반드시 구현해야 함
- */
-console.log("\n--- 4-3. 상속과 추상 클래스 ---");
-
-// TODO: Animal 추상 클래스를 정의하세요
-abstract class Animal {
-    // TODO: 속성들을 정의하세요 (protected name, protected age)
-    /* 여기에 속성들을 작성하세요 */
-
-    // TODO: 생성자를 정의하세요
-    constructor(/* 여기에 생성자 매개변수들을 작성하세요 */) {
-        /* 여기에 생성자 내용을 작성하세요 */
-    }
-
-    // TODO: getInfo 메서드를 정의하세요 (public)
-    /* 여기에 메서드를 작성하세요 */
-
-    // TODO: 추상 메서드들을 정의하세요 (makeSound, move)
-    /* 여기에 추상 메서드들을 작성하세요 */
-}
-
-// TODO: Dog 클래스를 정의하세요. Animal을 상속
-class Dog extends /* 여기에 상속할 클래스를 작성하세요 */ {
-    // TODO: breed 속성을 정의하세요 (private)
-    /* 여기에 속성을 작성하세요 */
-
-    // TODO: 생성자를 정의하세요
-    constructor(/* 여기에 생성자 매개변수들을 작성하세요 */) {
-        /* 여기에 생성자 내용을 작성하세요 (super 호출 포함) */
-    }
-
-    // TODO: 추상 메서드들을 구현하세요
-    /* 여기에 makeSound 메서드를 구현하세요 */
-
-    /* 여기에 move 메서드를 구현하세요 */
-
-    // TODO: getBreed 메서드를 정의하세요
-    /* 여기에 메서드를 작성하세요 */
-}
-
-// TODO: Cat 클래스를 정의하세요. Animal을 상속
-class Cat extends /* 여기에 상속할 클래스를 작성하세요 */ {
-    // TODO: isIndoor 속성을 정의하세요 (private)
-    /* 여기에 속성을 작성하세요 */
-
-    // TODO: 생성자를 정의하세요
-    constructor(/* 여기에 생성자 매개변수들을 작성하세요 */) {
-        /* 여기에 생성자 내용을 작성하세요 (super 호출 포함) */
-    }
-
-    // TODO: 추상 메서드들을 구현하세요
-    /* 여기에 makeSound 메서드를 구현하세요 */
-
-    /* 여기에 move 메서드를 구현하세요 */
-
-    // TODO: getLocation 메서드를 정의하세요
-    /* 여기에 메서드를 작성하세요 */
-}
-
-// TODO: Dog와 Cat 인스턴스를 생성하고 테스트하세요
-let myDog = /* 여기에 Dog 인스턴스를 생성하세요 */;
-let myCat = /* 여기에 Cat 인스턴스를 생성하세요 */;
-
-console.log("강아지 정보:", myDog.getInfo());
-console.log("강아지 소리:", myDog.makeSound());
-console.log("강아지 움직임:", myDog.move());
-console.log("강아지 품종:", myDog.getBreed());
-
-console.log("고양이 정보:", myCat.getInfo());
-console.log("고양이 소리:", myCat.makeSound());
-console.log("고양이 움직임:", myCat.move());
-console.log("고양이 위치:", myCat.getLocation());
-
 // ================================================
 // 5. 종합 실습 예제
 // ================================================
@@ -448,113 +370,65 @@ console.log("고양이 위치:", myCat.getLocation());
 console.log("\n--- 5. 종합 실습 예제 ---");
 
 /**
- * 온라인 쇼핑몰 시스템
- * - 제네릭을 활용한 데이터 관리
+ * 간단한 도서 관리 시스템
+ * - 제네릭을 활용한 데이터 처리
  * - 타입 별칭으로 복잡한 타입 정의
- * - 클래스를 이용한 객체지향 설계
  * - 함수 타입을 활용한 콜백 처리
  */
 
 // TODO: 타입 별칭들을 정의하세요
-type ProductId = /* 여기에 타입을 작성하세요 */;
-type Price = /* 여기에 타입을 작성하세요 */;
-type Quantity = /* 여기에 타입을 작성하세요 */;
+type BookId = /* 여기에 타입을 작성하세요 */;
+type BookGenre = /* 여기에 유니온 타입을 작성하세요 (예: "fiction" | "science" | "history") */;
 
-type ProductCategory = /* 여기에 유니온 타입을 작성하세요 */;
-
-type Product = {
-    /* 여기에 Product 타입의 속성들을 작성하세요 */
+type Book = {
+    /* 여기에 Book 타입의 속성들을 작성하세요 (id, title, author, genre, year) */
 };
 
-type CartItem = {
-    /* 여기에 CartItem 타입의 속성들을 작성하세요 */
-};
-
-// TODO: Repository 제네릭 인터페이스를 정의하세요
-interface Repository</* 여기에 제네릭 타입 매개변수를 작성하세요 */> {
-    /* 여기에 메서드들을 정의하세요 */
+// TODO: 제네릭 함수들을 정의하세요
+// 배열에서 조건에 맞는 항목들을 필터링하는 제네릭 함수
+function filterItems</* 여기에 제네릭 타입을 작성하세요 */>(
+    /* 여기에 매개변수들을 작성하세요 (items 배열, predicate 함수) */
+): /* 여기에 반환 타입을 작성하세요 */ {
+    /* 여기에 함수 내용을 작성하세요 */
 }
 
-// TODO: ProductRepository 클래스를 정의하세요
-class ProductRepository implements /* 여기에 구현할 인터페이스를 작성하세요 */ {
-    // TODO: products 배열 속성을 정의하세요 (private)
-    /* 여기에 속성을 작성하세요 */
-
-    // TODO: Repository 인터페이스의 메서드들을 구현하세요
-    /* 여기에 findById 메서드를 구현하세요 */
-
-    /* 여기에 findAll 메서드를 구현하세요 */
-
-    /* 여기에 add 메서드를 구현하세요 */
-
-    /* 여기에 remove 메서드를 구현하세요 */
-
-    // TODO: findByCategory 메서드를 추가로 구현하세요
-    /* 여기에 findByCategory 메서드를 구현하세요 */
-}
-
-// TODO: ShoppingCart 클래스를 정의하세요
-class ShoppingCart {
-    // TODO: items 배열 속성을 정의하세요 (private)
-    /* 여기에 속성을 작성하세요 */
-
-    // TODO: addItem 메서드를 구현하세요
-    /* 여기에 addItem 메서드를 구현하세요 */
-
-    // TODO: removeItem 메서드를 구현하세요
-    /* 여기에 removeItem 메서드를 구현하세요 */
-
-    // TODO: getItems 메서드를 구현하세요
-    /* 여기에 getItems 메서드를 구현하세요 */
-
-    // TODO: getTotalPrice 메서드를 구현하세요
-    /* 여기에 getTotalPrice 메서드를 구현하세요 */
-
-    // TODO: clear 메서드를 구현하세요
-    /* 여기에 clear 메서드를 구현하세요 */
+// 배열에서 특정 속성으로 그룹화하는 제네릭 함수
+function groupBy</* 여기에 제네릭 타입들을 작성하세요 */>(
+    /* 여기에 매개변수들을 작성하세요 (items 배열, keySelector 함수) */
+): /* 여기에 반환 타입을 작성하세요 */ {
+    /* 여기에 함수 내용을 작성하세요 */
 }
 
 // TODO: 함수 타입들을 정의하세요
-type PaymentProcessor = /* 여기에 함수 타입을 작성하세요 */;
-type OrderCallback = /* 여기에 함수 타입을 작성하세요 */;
+type SearchCallback<T> = /* 여기에 함수 타입을 작성하세요 (결과 배열을 받는 콜백) */;
 
-// TODO: processOrder 함수를 구현하세요
-async function processOrder(
-    /* 여기에 매개변수들을 작성하세요 */
-): Promise<void> {
-    /* 여기에 함수 내용을 구현하세요 */
+// TODO: 도서 검색 함수를 구현하세요
+function searchBooks(
+    /* 여기에 매개변수들을 작성하세요 (books 배열, query 문자열, callback) */
+): void {
+    /* 여기에 함수 내용을 작성하세요 */
 }
 
-// TODO: creditCardProcessor 함수를 구현하세요
-const creditCardProcessor: PaymentProcessor = /* 여기에 함수를 구현하세요 */;
+// TODO: 실습 실행 함수를 구현하세요
+function runBookDemo(): void {
+    console.log("=== 도서 관리 시스템 데모 ===");
 
-// TODO: runShoppingMallDemo 함수를 구현하세요
-async function runShoppingMallDemo(): Promise<void> {
-    console.log("=== 온라인 쇼핑몰 시스템 데모 ===");
+    // TODO: 도서 데이터 생성
+    const books: Book[] = [
+        /* 여기에 도서 객체들을 작성하세요 */
+    ];
 
-    // TODO: 상품 저장소 초기화
-    /* 여기에 ProductRepository 인스턴스를 생성하세요 */
-    
-    // TODO: 상품 데이터 추가
-    /* 여기에 상품들을 생성하고 저장소에 추가하세요 */
+    // TODO: 장르별 도서 그룹화
+    /* 여기에 groupBy 함수를 사용해 장르별로 그룹화하는 코드를 작성하세요 */
 
-    // TODO: 쇼핑카트 생성
-    /* 여기에 ShoppingCart 인스턴스를 생성하세요 */
+    // TODO: 최근 도서 필터링 (2020년 이후)
+    /* 여기에 filterItems 함수를 사용해 최근 도서를 필터링하는 코드를 작성하세요 */
 
-    // TODO: 상품 검색 및 장바구니 추가
-    /* 여기에 상품을 검색하고 장바구니에 추가하는 코드를 작성하세요 */
-
-    // TODO: 장바구니 내용 확인
-    /* 여기에 장바구니 내용을 출력하는 코드를 작성하세요 */
-
-    // TODO: 카테고리별 상품 검색
-    /* 여기에 카테고리별 상품을 검색하는 코드를 작성하세요 */
-
-    // TODO: 주문 처리
-    /* 여기에 주문을 처리하는 코드를 작성하세요 */
+    // TODO: 도서 검색 (제목 검색)
+    /* 여기에 searchBooks 함수를 사용해 도서를 검색하는 코드를 작성하세요 */
 }
 
 // TODO: 데모 실행
-/* 여기에 runShoppingMallDemo 함수를 호출하는 코드를 작성하세요 */
+/* 여기에 runBookDemo 함수를 호출하는 코드를 작성하세요 */
 
 console.log("\n=== 실습 완료 ===");
